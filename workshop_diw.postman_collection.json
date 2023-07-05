@@ -1,0 +1,260 @@
+{
+	"info": {
+		"_postman_id": "98bfcb20-b0db-4196-9d4e-300c906a135d",
+		"name": "workshop_diw",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "01_create_channel",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"channelName\":\"supplychainchannel\",\r\n  \"channelConfigPath\": \"../hyperledger/channel-artifacts/supplychainchannel.tx\",\r\n  \"username\": \"supplyChainUser\",\r\n  \"orgName\": \"EC\"\r\n}"
+				},
+				"url": {
+					"raw": "http://10.210.12.12:7001/channels",
+					"protocol": "http",
+					"host": [
+						"10",
+						"210",
+						"12",
+						"12"
+					],
+					"port": "7001",
+					"path": [
+						"channels"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "02_join_peers",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"peers\":[\"peer0.ec.mvoting.in\",\"peer1.ec.mvoting.in\",\"peer2.ec.mvoting.in\",\"peer3.ec.mvoting.in\"],\r\n\t\"username\":\"supplyChainUser\",\r\n\t\"orgName\":\"EC\"\r\n}"
+				},
+				"url": {
+					"raw": "http://10.210.12.12:7001/channels/:channelName/peers",
+					"protocol": "http",
+					"host": [
+						"10",
+						"210",
+						"12",
+						"12"
+					],
+					"port": "7001",
+					"path": [
+						"channels",
+						":channelName",
+						"peers"
+					],
+					"variable": [
+						{
+							"key": "channelName",
+							"value": "supplychainchannel"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "03_install_chaincode",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"peers\": [\r\n        \"peer0.ec.mvoting.in\",\r\n        \"peer1.ec.mvoting.in\",\r\n        \"peer2.ec.mvoting.in\",\r\n        \"peer3.ec.mvoting.in\"\r\n    ],\r\n    \"chaincodeName\": \"supplyChainData\",\r\n    \"chaincodePath\": \"/home/seng/supplyChainApp/chaincode/chaincode_example02/node/shubhangi\",\r\n    \"chaincodeVersion\": \"v1.0\",\r\n    \"chaincodeType\": \"node\",\r\n    \"username\": \"supplyChainUser\",\r\n    \"orgName\": \"EC\"\r\n}"
+				},
+				"url": {
+					"raw": "http://10.210.0.171:7002/chaincodes",
+					"protocol": "http",
+					"host": [
+						"10",
+						"210",
+						"0",
+						"171"
+					],
+					"port": "7002",
+					"path": [
+						"chaincodes"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "04_instantiate_chaincode",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"peers\": [\r\n        \"peer0.ec.mvoting.in\",\r\n        \"peer1.ec.mvoting.in\",\r\n        \"peer2.ec.mvoting.in\",\r\n        \"peer3.ec.mvoting.in\"\r\n    ],\r\n    \"chaincodeName\": \"supplyChainData\",\r\n    \"chaincodeVersion\": \"v1.0\",\r\n    \"chaincodeType\": \"node\",\r\n    \"functionName\": \"\",\r\n    \"args\": [\r\n        \"index\",\r\n        \"1\"\r\n    ],\r\n    \"username\": \"supplyChainUser\",\r\n    \"orgName\": \"EC\"\r\n}"
+				},
+				"url": {
+					"raw": "http://10.210.0.171:7002/channels/:channelName/chaincodes",
+					"protocol": "http",
+					"host": [
+						"10",
+						"210",
+						"0",
+						"171"
+					],
+					"port": "7002",
+					"path": [
+						"channels",
+						":channelName",
+						"chaincodes"
+					],
+					"variable": [
+						{
+							"key": "channelName",
+							"value": "supplychainchannel"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "05_upgrade_chaincode",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \"peers\":[\"peer0.ec.mvoting.in\",\"peer1.ec.mvoting.in\",\"peer2.ec.mvoting.in\",\"peer3.ec.mvoting.in\"],\r\n    \"chaincodeName\": \"supplyChainData\",\r\n    \"chaincodeVersion\": \"v1.2\",\r\n    \"chaincodeType\": \"node\",\r\n    \"functionName\": \"\",\r\n    \"args\": [\"index\",\"1\"],\r\n    \"username\":\"supplyChainUser\",\r\n    \"orgName\":\"EC\"\r\n}  "
+				},
+				"url": {
+					"raw": "10.210.12.12:7000/channels/:channelName/chaincodes/upgrade",
+					"host": [
+						"10",
+						"210",
+						"12",
+						"12"
+					],
+					"port": "7000",
+					"path": [
+						"channels",
+						":channelName",
+						"chaincodes",
+						"upgrade"
+					],
+					"variable": [
+						{
+							"key": "channelName",
+							"value": "supplychainchannel"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "add_user_data",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"userId\" : 1,\r\n    \"userName\" : \"ajinkya\",\r\n    \"userRole\" : \"admin\",\r\n    \"userBranchCode\" : 69\r\n}"
+				},
+				"url": {
+					"raw": "http://10.212.0.60:7000/supplyApp/supplyChainData",
+					"protocol": "http",
+					"host": [
+						"10",
+						"212",
+						"0",
+						"60"
+					],
+					"port": "7000",
+					"path": [
+						"supplyApp",
+						"supplyChainData"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get_user_data",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"userId\" : 1\r\n}"
+				},
+				"url": {
+					"raw": "http://10.212.0.60:7000//supplyApp/getSupplyChainDataByUserId",
+					"protocol": "http",
+					"host": [
+						"10",
+						"212",
+						"0",
+						"60"
+					],
+					"port": "7000",
+					"path": [
+						"",
+						"supplyApp",
+						"getSupplyChainDataByUserId"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
